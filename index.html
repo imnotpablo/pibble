@@ -509,12 +509,6 @@
     <a href="#howto" class="btn btn-primary">🚀 Buy $PIBBLE</a>
     <a href="#about" class="btn btn-secondary">Learn More</a>
   </div>
-  <div class="contract-box" onclick="copyCA()">
-    <span class="label">CA</span>
-    <span class="address" id="ca-text">0x000...paste_your_contract_here</span>
-    <span class="copy-icon">📋</span>
-    <span class="copied-msg" id="copied-msg">Copied!</span>
-  </div>
 </section>
 
 <!-- MARQUEE -->
@@ -545,12 +539,12 @@
     <div class="section-tag">What is $PIBBLE?</div>
     <h2>Love It <span class="pink">Just The Way</span> It Is 🐶</h2>
     <p>
-      You know the pibble. The goofy smile, the block head, the wiggle butt — the internet fell in love with this chunky velvet hippo and set it to <strong>"Just The Way You Are."</strong>
+      You've seen the video — a pibble dancing its heart out to <strong>"Just The Way You Are" by Milky.</strong> The goofy moves, the block head vibes, the pure joy — the internet couldn't get enough of it.
       <br><br>
-      $PIBBLE is the official memecoin for the pibble movement. No utility, no roadmap BS — just pure, unfiltered love for the most misunderstood doggo on the internet. If you love pibbles, you're home.
+      $PIBBLE is the memecoin born from that moment. No utility, no roadmap BS — just pure, unfiltered love for the dancing pibble that made the whole internet smile. If you love pibbles, you're home.
     </p>
     <div class="song-quote">
-      ♪ "You're amazing, just the way you are" ♪
+      ♪ "The way you are, the way you understand me" ♪
     </div>
   </div>
 </section>
@@ -633,9 +627,6 @@
       <a href="https://x.com/pibblethecoin" class="social-btn" target="_blank">
         <span class="s-icon">🐦</span> Twitter / X
       </a>
-      <a href="https://t.me/pibblethecoin" class="social-btn" target="_blank">
-        <span class="s-icon">💬</span> Telegram
-      </a>
     </div>
   </div>
 </section>
@@ -646,16 +637,6 @@
 </footer>
 
 <script>
-  // Copy Contract Address
-  function copyCA() {
-    const ca = document.getElementById('ca-text').textContent;
-    navigator.clipboard.writeText(ca).then(() => {
-      const msg = document.getElementById('copied-msg');
-      msg.style.display = 'inline';
-      setTimeout(() => msg.style.display = 'none', 1500);
-    });
-  }
-
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
