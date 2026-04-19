@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$PIBBLE — Just The Way You Are</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #ff6b9d;
+    --hot-pink: #ff2d78;
+    --yellow: #ffe156;
+    --orange: #ff9f43;
+    --blue: #4ecdc4;
+    --dark: #1a1a2e;
+    --darker: #0f0f1f;
+    --light: #fef9f0;
+    --glow: rgba(255, 107, 157, 0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--darker);
+    color: var(--light);
+    overflow-x: hidden;
+  }
+
+  /* ── Animated BG ── */
+  .bg-blobs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-blobs .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.25;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .blob:nth-child(1) { width: 500px; height: 500px; background: var(--pink); top: -10%; left: -10%; }
+  .blob:nth-child(2) { width: 400px; height: 400px; background: var(--blue); bottom: -5%; right: -5%; animation-delay: -4s; }
+  .blob:nth-child(3) { width: 350px; height: 350px; background: var(--orange); top: 40%; left: 50%; animation-delay: -8s; }
+
+  @keyframes drift {
+    to { transform: translate(60px, 40px) scale(1.15); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(16px);
+    background: rgba(15, 15, 31, 0.7);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: var(--pink);
+    letter-spacing: 2px;
+  }
+  .nav-logo span { color: var(--yellow); }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a {
+    color: var(--light);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--pink); }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    gap: 24px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,107,157,0.15);
+    border: 1px solid rgba(255,107,157,0.3);
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--pink);
+    animation: fadeUp 0.8s ease-out both;
+  }
+  .pibble-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    box-shadow: 0 0 60px var(--glow), 0 0 120px rgba(255,107,157,0.15);
+    animation: fadeUp 0.8s ease-out 0.1s both, float 4s ease-in-out infinite;
+    position: relative;
+  }
+  .pibble-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255,255,255,0.15);
+    animation: spin 20s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    animation: fadeUp 0.8s ease-out 0.2s both;
+  }
+  h1 .pink { color: var(--pink); }
+  h1 .yellow { color: var(--yellow); }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: rgba(254,249,240,0.7);
+    max-width: 500px;
+    animation: fadeUp 0.8s ease-out 0.35s both;
+    font-style: italic;
+  }
+  .hero-subtitle em { color: var(--yellow); font-style: normal; font-weight: 900; }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.8s ease-out 0.5s both;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 36px;
+    border-radius: 999px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 1px;
+  }
+  .btn:hover { transform: translateY(-3px); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pink), var(--hot-pink));
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(255,45,120,0.35);
+  }
+  .btn-primary:hover { box-shadow: 0 12px 40px rgba(255,45,120,0.5); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    color: var(--light);
+    border: 2px solid rgba(255,255,255,0.15);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+  .contract-box {
+    animation: fadeUp 0.8s ease-out 0.6s both;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .contract-box:hover { background: rgba(255,255,255,0.09); }
+  .contract-box .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--pink);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .contract-box .address {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: rgba(254,249,240,0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .contract-box .copy-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .copied-msg {
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: none;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    overflow: hidden;
+    background: linear-gradient(90deg, var(--pink), var(--orange), var(--yellow), var(--pink));
+    padding: 12px 0;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-track span {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--dark);
+    padding: 0 32px;
+    white-space: nowrap;
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 100px 24px;
+    text-align: center;
+  }
+  .about-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .section-tag {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+  .about h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 24px;
+  }
+  .about p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: rgba(254,249,240,0.7);
+  }
+  .about p strong { color: var(--yellow); }
+
+  .song-quote {
+    margin-top: 40px;
+    padding: 32px;
+    background: rgba(255,107,157,0.08);
+    border-left: 4px solid var(--pink);
+    border-radius: 0 16px 16px 0;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--pink);
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TOKENOMICS ── */
+  .tokenomics {
+    padding: 100px 24px;
+  }
+  .tokenomics-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .tokenomics h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 48px;
+  }
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  .token-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 36px 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .token-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--pink);
+  }
+  .token-card .icon { font-size: 2.4rem; margin-bottom: 12px; }
+  .token-card .value {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: var(--yellow);
+  }
+  .token-card .label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(254,249,240,0.5);
+    margin-top: 6px;
+    font-weight: 700;
+  }
+
+  /* ── HOW TO BUY ── */
+  .howto {
+    padding: 100px 24px;
+  }
+  .howto-inner {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .howto h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 48px;
+  }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: left;
+  }
+  .step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 24px;
+    transition: border-color 0.3s;
+  }
+  .step:hover { border-color: var(--orange); }
+  .step-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--orange);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .step-text h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+  .step-text p {
+    font-size: 0.95rem;
+    color: rgba(254,249,240,0.6);
+    line-height: 1.6;
+  }
+
+  /* ── COMMUNITY / SOCIALS ── */
+  .community {
+    padding: 100px 24px;
+    text-align: center;
+  }
+  .community h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 16px;
+  }
+  .community p {
+    color: rgba(254,249,240,0.6);
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+  }
+  .social-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border-radius: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.05rem;
+    text-decoration: none;
+    color: var(--light);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    transition: transform 0.2s, background 0.2s, border-color 0.2s;
+  }
+  .social-btn:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.09);
+    border-color: var(--pink);
+  }
+  .social-btn .s-icon { font-size: 1.4rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: rgba(254,249,240,0.25);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    z-index: 1;
+  }
+  footer a { color: var(--pink); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .pibble-avatar { width: 150px; height: 150px; font-size: 75px; }
+    .contract-box { flex-direction: column; align-items: flex-start; }
+    .hero-buttons { flex-direction: column; width: 100%; }
+    .hero-buttons .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BG Blobs -->
+<div class="bg-blobs">
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">$<span>PIBBLE</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#howto">Buy</a>
+    <a href="#community">Community</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎵 The Official Pibble Memecoin</div>
+  <div class="pibble-avatar">🐶</div>
+  <h1><span class="pink">$</span>PIBBLE</h1>
+  <p class="hero-subtitle">
+    ♪ <em>"Just the way you are"</em> ♪<br>
+    The internet's favorite pibble, now on-chain.
+  </p>
+  <div class="hero-buttons">
+    <a href="#howto" class="btn btn-primary">🚀 Buy $PIBBLE</a>
+    <a href="#about" class="btn btn-secondary">Learn More</a>
+  </div>
+  <div class="contract-box" onclick="copyCA()">
+    <span class="label">CA</span>
+    <span class="address" id="ca-text">0x000...paste_your_contract_here</span>
+    <span class="copy-icon">📋</span>
+    <span class="copied-msg" id="copied-msg">Copied!</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>🐶 $PIBBLE</span>
+    <span>🎵 JUST THE WAY YOU ARE</span>
+    <span>💖 LOVE YOUR PIBBLE</span>
+    <span>🚀 TO THE MOON</span>
+    <span>🐶 $PIBBLE</span>
+    <span>🎵 JUST THE WAY YOU ARE</span>
+    <span>💖 LOVE YOUR PIBBLE</span>
+    <span>🚀 TO THE MOON</span>
+    <span>🐶 $PIBBLE</span>
+    <span>🎵 JUST THE WAY YOU ARE</span>
+    <span>💖 LOVE YOUR PIBBLE</span>
+    <span>🚀 TO THE MOON</span>
+    <span>🐶 $PIBBLE</span>
+    <span>🎵 JUST THE WAY YOU ARE</span>
+    <span>💖 LOVE YOUR PIBBLE</span>
+    <span>🚀 TO THE MOON</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner reveal">
+    <div class="section-tag">What is $PIBBLE?</div>
+    <h2>Love It <span class="pink">Just The Way</span> It Is 🐶</h2>
+    <p>
+      You know the pibble. The goofy smile, the block head, the wiggle butt — the internet fell in love with this chunky velvet hippo and set it to <strong>"Just The Way You Are."</strong>
+      <br><br>
+      $PIBBLE is the official memecoin for the pibble movement. No utility, no roadmap BS — just pure, unfiltered love for the most misunderstood doggo on the internet. If you love pibbles, you're home.
+    </p>
+    <div class="song-quote">
+      ♪ "You're amazing, just the way you are" ♪
+    </div>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section class="tokenomics" id="tokenomics">
+  <div class="tokenomics-inner reveal">
+    <div class="section-tag">Tokenomics</div>
+    <h2>Simple. Fair. <span class="yellow">Based.</span></h2>
+    <div class="token-grid">
+      <div class="token-card">
+        <div class="icon">💰</div>
+        <div class="value">1B</div>
+        <div class="label">Total Supply</div>
+      </div>
+      <div class="token-card">
+        <div class="icon">🔥</div>
+        <div class="value">0%</div>
+        <div class="label">Buy / Sell Tax</div>
+      </div>
+      <div class="token-card">
+        <div class="icon">🔒</div>
+        <div class="value">100%</div>
+        <div class="label">LP Burned</div>
+      </div>
+      <div class="token-card">
+        <div class="icon">✅</div>
+        <div class="value">Renounced</div>
+        <div class="label">Ownership</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO BUY -->
+<section class="howto" id="howto">
+  <div class="howto-inner reveal">
+    <div class="section-tag">How to Buy</div>
+    <h2>Get Your <span class="pink">$PIBBLE</span></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <h3>Get a Wallet</h3>
+          <p>Download Phantom, MetaMask, or your preferred crypto wallet and set it up.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <h3>Load Up</h3>
+          <p>Buy SOL or ETH from an exchange and send it to your wallet. Make sure you have enough for gas fees.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <h3>Swap for $PIBBLE</h3>
+          <p>Go to your DEX (Raydium, Uniswap, etc.), paste the $PIBBLE contract address, and swap!</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <h3>HODL & Vibe</h3>
+          <p>Join the community, share pibble memes, and enjoy the ride. 🐶🎵</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community" id="community">
+  <div class="reveal">
+    <div class="section-tag">Join the Pack</div>
+    <h2>The Pibble <span class="yellow">Community</span></h2>
+    <p>Follow us, join the chat, and spread the pibble love.</p>
+    <div class="social-links">
+      <a href="https://x.com/pibblethecoin" class="social-btn" target="_blank">
+        <span class="s-icon">🐦</span> Twitter / X
+      </a>
+      <a href="https://t.me/pibblethecoin" class="social-btn" target="_blank">
+        <span class="s-icon">💬</span> Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>$PIBBLE is a memecoin with no intrinsic value or financial return. Made with 💖 by the pibble community.</p>
+</footer>
+
+<script>
+  // Copy Contract Address
+  function copyCA() {
+    const ca = document.getElementById('ca-text').textContent;
+    navigator.clipboard.writeText(ca).then(() => {
+      const msg = document.getElementById('copied-msg');
+      msg.style.display = 'inline';
+      setTimeout(() => msg.style.display = 'none', 1500);
+    });
+  }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
