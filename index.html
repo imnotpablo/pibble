@@ -113,7 +113,25 @@
   .btn-secondary { background: rgba(255,255,255,0.06); color: var(--light); border: 2px solid rgba(62,198,198,0.3); }
   .btn-secondary:hover { background: rgba(62,198,198,0.1); }
 
-  .fomo-alert { animation: fadeUp 0.8s ease-out 0.6s both; background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.3); border-radius: 12px; padding: 12px 24px; font-size: 0.9rem; color: var(--gold); font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .contract-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(62,198,198,0.08);
+    border: 1px solid rgba(62,198,198,0.3);
+    border-radius: 16px;
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: background 0.2s;
+    animation: fadeUp 0.8s ease-out 0.7s both;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .contract-box:hover { background: rgba(62,198,198,0.15); }
+  .ca-label { font-family: 'Fredoka One', cursive; color: var(--teal); font-size: 0.85rem; letter-spacing: 2px; white-space: nowrap; }
+  .ca-address { font-family: monospace; font-size: 0.8rem; color: rgba(255,248,238,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ca-copy { flex-shrink: 0; font-size: 1.1rem; }
+  .ca-copied { color: var(--teal); font-weight: 700; font-size: 0.8rem; display: none; white-space: nowrap; } animation: fadeUp 0.8s ease-out 0.6s both; background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.3); border-radius: 12px; padding: 12px 24px; font-size: 0.9rem; color: var(--gold); font-weight: 700; display: flex; align-items: center; gap: 8px; }
 
   /* ── MARQUEE ── */
   .marquee-wrap { overflow: hidden; background: linear-gradient(90deg, var(--teal-dark), var(--teal), var(--peach), var(--gold), var(--teal-dark)); padding: 12px 0; }
@@ -237,20 +255,7 @@
     The viral pibble has arrived on-chain. Are you early?
   </p>
 
-  <div class="fomo-counter">
-    <div class="counter-box">
-      <div class="counter-val" id="watchers">2,847</div>
-      <div class="counter-label">Watching Now</div>
-    </div>
-    <div class="counter-box">
-      <div class="counter-val" id="countdown">04:32:11</div>
-      <div class="counter-label">Until Launch</div>
-    </div>
-    <div class="counter-box">
-      <div class="counter-val">🔥</div>
-      <div class="counter-label">Trending</div>
-    </div>
-  </div>
+
 
   <div class="hero-buttons">
     <a href="#howto" class="btn btn-primary">🚀 Buy $PIBBLE Now</a>
@@ -258,6 +263,12 @@
   </div>
   <div class="fomo-alert">
     ⚡ Early buyers historically see the biggest gains — don't be late.
+  </div>
+  <div class="contract-box" onclick="copyCA()">
+    <span class="ca-label">CA</span>
+    <span class="ca-address" id="ca-text">HoM8yFq4AyQtjWchg12VRzVi8USJcviveDRUqQEvpump</span>
+    <span class="ca-copy">📋</span>
+    <span class="ca-copied" id="copied-msg">Copied!</span>
   </div>
 </section>
 
@@ -416,6 +427,16 @@
 </footer>
 
 <script>
+  // Copy CA
+  function copyCA() {
+    var ca = document.getElementById('ca-text').textContent;
+    navigator.clipboard.writeText(ca).then(function() {
+      var msg = document.getElementById('copied-msg');
+      msg.style.display = 'inline';
+      setTimeout(function(){ msg.style.display = 'none'; }, 1500);
+    });
+  }
+
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
@@ -425,29 +446,7 @@
   }, { threshold: 0.12 });
   revealEls.forEach(el => observer.observe(el));
 
-  // Live watcher counter (slowly fluctuates)
-  let watchers = 2847;
-  setInterval(() => {
-    watchers += Math.floor(Math.random() * 7) - 2;
-    if (watchers < 2700) watchers = 2700;
-    document.getElementById('watchers').textContent = watchers.toLocaleString();
-  }, 3000);
 
-  // Countdown timer
-  var launchTarget = Date.now() + (4 * 3600000) + (32 * 60000) + 11000;
-  function updateCountdown() {
-    var diff = launchTarget - Date.now();
-    if (diff < 0) diff = 0;
-    var h = Math.floor(diff / 3600000);
-    var m = Math.floor((diff % 3600000) / 60000);
-    var s = Math.floor((diff % 60000) / 1000);
-    var hh = h < 10 ? '0' + h : '' + h;
-    var mm = m < 10 ? '0' + m : '' + m;
-    var ss = s < 10 ? '0' + s : '' + s;
-    document.getElementById('countdown').textContent = hh + ':' + mm + ':' + ss;
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
 </script>
 
 </body>
