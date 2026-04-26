@@ -7,19 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --pink: #ff6b9d;
-    --hot-pink: #ff2d78;
-    --yellow: #ffe156;
-    --orange: #ff9f43;
-    --blue: #4ecdc4;
-    --dark: #1a1a2e;
-    --darker: #0f0f1f;
-    --light: #fef9f0;
-    --glow: rgba(255, 107, 157, 0.4);
+    --peach: #ffb347;
+    --peach-light: #ffd89b;
+    --teal: #3ec6c6;
+    --teal-dark: #2aa8a8;
+    --gold: #f0c040;
+    --sunset: #ff7e5f;
+    --sand: #fff8ee;
+    --ocean: #1a7a8a;
+    --dark: #0d3d4a;
+    --darker: #071e24;
+    --light: #fff8ee;
+    --glow: rgba(255,179,71,0.4);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -29,454 +31,183 @@
     overflow-x: hidden;
   }
 
-  /* ── Animated BG ── */
-  .bg-blobs {
+  /* ── FOMO TICKER ── */
+  .fomo-ticker {
     position: fixed;
-    inset: 0;
-    z-index: 0;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+    background: linear-gradient(90deg, var(--sunset), var(--peach), var(--gold));
+    padding: 8px 16px;
+    text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    color: var(--dark);
+    letter-spacing: 1px;
     overflow: hidden;
-    pointer-events: none;
   }
-  .bg-blobs .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.25;
-    animation: drift 12s ease-in-out infinite alternate;
+  .fomo-ticker-track {
+    display: inline-flex;
+    gap: 48px;
+    white-space: nowrap;
+    animation: marquee-ticker 18s linear infinite;
   }
-  .blob:nth-child(1) { width: 500px; height: 500px; background: var(--pink); top: -10%; left: -10%; }
-  .blob:nth-child(2) { width: 400px; height: 400px; background: var(--blue); bottom: -5%; right: -5%; animation-delay: -4s; }
-  .blob:nth-child(3) { width: 350px; height: 350px; background: var(--orange); top: 40%; left: 50%; animation-delay: -8s; }
+  @keyframes marquee-ticker { from{transform:translateX(100vw)} to{transform:translateX(-100%)} }
+  .fomo-dot { display: inline-block; width: 8px; height: 8px; background: var(--dark); border-radius: 50%; animation: blink 1s infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-  @keyframes drift {
-    to { transform: translate(60px, 40px) scale(1.15); }
-  }
+  /* ── BG ── */
+  .bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .bg-blobs .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.13; animation: drift 12s ease-in-out infinite alternate; }
+  .blob:nth-child(1) { width: 600px; height: 600px; background: var(--teal); top: -15%; left: -10%; }
+  .blob:nth-child(2) { width: 500px; height: 500px; background: var(--peach); bottom: -5%; right: -5%; animation-delay: -4s; }
+  .blob:nth-child(3) { width: 400px; height: 400px; background: var(--gold); top: 40%; left: 45%; animation-delay: -8s; }
+  @keyframes drift { to { transform: translate(60px, 40px) scale(1.15); } }
 
   /* ── NAV ── */
   nav {
     position: fixed;
-    top: 0;
+    top: 36px;
     width: 100%;
     z-index: 100;
-    padding: 16px 24px;
+    padding: 14px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     backdrop-filter: blur(16px);
-    background: rgba(15, 15, 31, 0.7);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(7,30,36,0.85);
+    border-bottom: 1px solid rgba(62,198,198,0.15);
   }
-  .nav-logo {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.6rem;
-    color: var(--pink);
-    letter-spacing: 2px;
-  }
-  .nav-logo span { color: var(--yellow); }
+  .nav-logo { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--peach); letter-spacing: 2px; }
+  .nav-logo span { color: var(--teal); }
   .nav-links { display: flex; gap: 24px; }
-  .nav-links a {
-    color: var(--light);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--pink); }
+  .nav-links a { color: var(--light); text-decoration: none; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--peach); }
 
-  /* ── SECTIONS ── */
-  section {
-    position: relative;
-    z-index: 1;
-  }
+  section { position: relative; z-index: 1; }
 
   /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 24px 80px;
-    gap: 24px;
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,107,157,0.15);
-    border: 1px solid rgba(255,107,157,0.3);
-    padding: 8px 20px;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--pink);
-    animation: fadeUp 0.8s ease-out both;
-  }
-  .pibble-avatar {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--pink), var(--orange));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 100px;
-    box-shadow: 0 0 60px var(--glow), 0 0 120px rgba(255,107,157,0.15);
-    animation: fadeUp 0.8s ease-out 0.1s both, float 4s ease-in-out infinite;
-    position: relative;
-  }
-  .pibble-avatar::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 2px dashed rgba(255,255,255,0.15);
-    animation: spin 20s linear infinite;
-  }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 150px 24px 80px; gap: 20px; }
+  .hero-badge { display: inline-block; background: rgba(62,198,198,0.12); border: 1px solid rgba(62,198,198,0.35); padding: 8px 20px; border-radius: 999px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--teal); animation: fadeUp 0.8s ease-out both; }
+
+  .pibble-avatar { width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--ocean)); display: flex; align-items: center; justify-content: center; font-size: 100px; box-shadow: 0 0 60px var(--glow), 0 0 120px rgba(62,198,198,0.12); animation: fadeUp 0.8s ease-out 0.1s both, float 4s ease-in-out infinite; position: relative; }
+  .pibble-avatar::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.12); animation: spin 20s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-14px); }
-  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
 
-  h1 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 1;
-    animation: fadeUp 0.8s ease-out 0.2s both;
-  }
-  h1 .pink { color: var(--pink); }
-  h1 .yellow { color: var(--yellow); }
+  h1 { font-family: 'Fredoka One', cursive; font-size: clamp(3rem, 8vw, 6rem); line-height: 1; animation: fadeUp 0.8s ease-out 0.2s both; }
+  .hero-subtitle { font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: rgba(255,248,238,0.7); max-width: 500px; animation: fadeUp 0.8s ease-out 0.35s both; font-style: italic; }
+  .hero-subtitle em { color: var(--gold); font-style: normal; font-weight: 900; }
 
-  .hero-subtitle {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    color: rgba(254,249,240,0.7);
-    max-width: 500px;
-    animation: fadeUp 0.8s ease-out 0.35s both;
-    font-style: italic;
-  }
-  .hero-subtitle em { color: var(--yellow); font-style: normal; font-weight: 900; }
+  /* ── FOMO COUNTER ── */
+  .fomo-counter { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s ease-out 0.4s both; }
+  .counter-box { background: rgba(62,198,198,0.07); border: 1px solid rgba(62,198,198,0.2); border-radius: 16px; padding: 16px 24px; text-align: center; min-width: 100px; }
+  .counter-val { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--gold); }
+  .counter-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,248,238,0.5); font-weight: 700; margin-top: 4px; }
 
-  .hero-buttons {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeUp 0.8s ease-out 0.5s both;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 16px 36px;
-    border-radius: 999px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.1rem;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    letter-spacing: 1px;
-  }
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s ease-out 0.5s both; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 16px 36px; border-radius: 999px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; text-decoration: none; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 1px; }
   .btn:hover { transform: translateY(-3px); }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--pink), var(--hot-pink));
-    color: #fff;
-    box-shadow: 0 8px 30px rgba(255,45,120,0.35);
-  }
-  .btn-primary:hover { box-shadow: 0 12px 40px rgba(255,45,120,0.5); }
-  .btn-secondary {
-    background: rgba(255,255,255,0.08);
-    color: var(--light);
-    border: 2px solid rgba(255,255,255,0.15);
-  }
-  .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+  .btn-primary { background: linear-gradient(135deg, var(--peach), var(--sunset)); color: #fff; box-shadow: 0 8px 30px rgba(255,126,95,0.4); animation: pulse-btn 2s ease-in-out infinite; }
+  @keyframes pulse-btn { 0%,100%{box-shadow:0 8px 30px rgba(255,126,95,0.4)} 50%{box-shadow:0 8px 50px rgba(255,126,95,0.75)} }
+  .btn-secondary { background: rgba(255,255,255,0.06); color: var(--light); border: 2px solid rgba(62,198,198,0.3); }
+  .btn-secondary:hover { background: rgba(62,198,198,0.1); }
 
-  .contract-box {
-    animation: fadeUp 0.8s ease-out 0.6s both;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: background 0.2s;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .contract-box:hover { background: rgba(255,255,255,0.09); }
-  .contract-box .label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--pink);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .contract-box .address {
-    font-family: monospace;
-    font-size: 0.85rem;
-    color: rgba(254,249,240,0.6);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .contract-box .copy-icon {
-    font-size: 1.1rem;
-    flex-shrink: 0;
-  }
-  .copied-msg {
-    color: var(--blue);
-    font-weight: 700;
-    font-size: 0.8rem;
-    display: none;
-  }
+  .fomo-alert { animation: fadeUp 0.8s ease-out 0.6s both; background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.3); border-radius: 12px; padding: 12px 24px; font-size: 0.9rem; color: var(--gold); font-weight: 700; display: flex; align-items: center; gap: 8px; }
 
   /* ── MARQUEE ── */
-  .marquee-wrap {
-    overflow: hidden;
-    background: linear-gradient(90deg, var(--pink), var(--orange), var(--yellow), var(--pink));
-    padding: 12px 0;
-  }
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 20s linear infinite;
-  }
-  .marquee-track span {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    color: var(--dark);
-    padding: 0 32px;
-    white-space: nowrap;
-  }
-  @keyframes marquee {
-    to { transform: translateX(-50%); }
-  }
+  .marquee-wrap { overflow: hidden; background: linear-gradient(90deg, var(--teal-dark), var(--teal), var(--peach), var(--gold), var(--teal-dark)); padding: 12px 0; }
+  .marquee-track { display: flex; width: max-content; animation: marquee 22s linear infinite; }
+  .marquee-track span { font-family: 'Fredoka One', cursive; font-size: 1rem; color: var(--dark); padding: 0 32px; white-space: nowrap; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ── FOMO BAND ── */
+  .fomo-band { background: linear-gradient(135deg, rgba(255,126,95,0.1), rgba(62,198,198,0.1)); border-top: 1px solid rgba(255,126,95,0.2); border-bottom: 1px solid rgba(62,198,198,0.2); padding: 40px 24px; text-align: center; position: relative; z-index: 1; }
+  .fomo-band h3 { font-family: 'Fredoka One', cursive; font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--gold); margin-bottom: 8px; }
+  .fomo-band p { color: rgba(255,248,238,0.65); font-size: 1rem; }
+  .fomo-band p strong { color: var(--peach); }
 
   /* ── ABOUT ── */
-  .about {
-    padding: 100px 24px;
-    text-align: center;
-  }
-  .about-inner {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-  .section-tag {
-    font-family: 'Fredoka One', cursive;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: var(--blue);
-    margin-bottom: 16px;
-  }
-  .about h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 24px;
-  }
-  .about p {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: rgba(254,249,240,0.7);
-  }
-  .about p strong { color: var(--yellow); }
-
-  .song-quote {
-    margin-top: 40px;
-    padding: 32px;
-    background: rgba(255,107,157,0.08);
-    border-left: 4px solid var(--pink);
-    border-radius: 0 16px 16px 0;
-    font-size: 1.3rem;
-    font-style: italic;
-    color: var(--pink);
-    font-family: 'Fredoka One', cursive;
-    letter-spacing: 0.5px;
-  }
+  .about { padding: 100px 24px; text-align: center; }
+  .about-inner { max-width: 700px; margin: 0 auto; }
+  .section-tag { font-family: 'Fredoka One', cursive; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; color: var(--teal); margin-bottom: 16px; }
+  .about h2 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 24px; }
+  .about p { font-size: 1.15rem; line-height: 1.8; color: rgba(255,248,238,0.7); }
+  .about p strong { color: var(--gold); }
+  .song-quote { margin-top: 40px; padding: 32px; background: rgba(62,198,198,0.07); border-left: 4px solid var(--teal); border-radius: 0 16px 16px 0; font-size: 1.3rem; font-style: italic; color: var(--teal); font-family: 'Fredoka One', cursive; letter-spacing: 0.5px; }
 
   /* ── TOKENOMICS ── */
-  .tokenomics {
-    padding: 100px 24px;
-  }
-  .tokenomics-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .tokenomics h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 48px;
-  }
-  .token-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-  }
-  .token-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 20px;
-    padding: 36px 24px;
-    transition: transform 0.3s, border-color 0.3s;
-  }
-  .token-card:hover {
-    transform: translateY(-6px);
-    border-color: var(--pink);
-  }
+  .tokenomics { padding: 100px 24px; }
+  .tokenomics-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .tokenomics h2 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 48px; }
+  .token-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+  .token-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(62,198,198,0.12); border-radius: 20px; padding: 36px 24px; transition: transform 0.3s, border-color 0.3s; }
+  .token-card:hover { transform: translateY(-6px); border-color: var(--teal); }
   .token-card .icon { font-size: 2.4rem; margin-bottom: 12px; }
-  .token-card .value {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.8rem;
-    color: var(--yellow);
-  }
-  .token-card .label {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: rgba(254,249,240,0.5);
-    margin-top: 6px;
-    font-weight: 700;
-  }
+  .token-card .value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--gold); }
+  .token-card .label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,248,238,0.5); margin-top: 6px; font-weight: 700; }
+
+  /* ── EARLY BUYERS ── */
+  .early-buyers { padding: 80px 24px; text-align: center; }
+  .early-buyers-inner { max-width: 700px; margin: 0 auto; }
+  .early-buyers h2 { font-family: 'Fredoka One', cursive; font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 16px; }
+  .early-buyers p { color: rgba(255,248,238,0.65); margin-bottom: 32px; font-size: 1.05rem; line-height: 1.7; }
+  .early-perks { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 24px; }
+  .perk { background: linear-gradient(135deg, rgba(62,198,198,0.07), rgba(255,179,71,0.07)); border: 1px solid rgba(240,192,64,0.2); border-radius: 16px; padding: 24px 16px; font-family: 'Fredoka One', cursive; }
+  .perk .perk-icon { font-size: 2rem; margin-bottom: 10px; }
+  .perk .perk-text { font-size: 1rem; color: var(--gold); }
 
   /* ── HOW TO BUY ── */
-  .howto {
-    padding: 100px 24px;
-  }
-  .howto-inner {
-    max-width: 700px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .howto h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 48px;
-  }
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    text-align: left;
-  }
-  .step {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px;
-    padding: 24px;
-    transition: border-color 0.3s;
-  }
-  .step:hover { border-color: var(--orange); }
-  .step-num {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2rem;
-    color: var(--orange);
-    line-height: 1;
-    flex-shrink: 0;
-  }
-  .step-text h3 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.15rem;
-    margin-bottom: 6px;
-  }
-  .step-text p {
-    font-size: 0.95rem;
-    color: rgba(254,249,240,0.6);
-    line-height: 1.6;
-  }
+  .howto { padding: 100px 24px; }
+  .howto-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .howto h2 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 48px; }
+  .steps { display: flex; flex-direction: column; gap: 24px; text-align: left; }
+  .step { display: flex; gap: 20px; align-items: flex-start; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px; transition: border-color 0.3s; }
+  .step:hover { border-color: var(--peach); }
+  .step-num { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--peach); line-height: 1; flex-shrink: 0; }
+  .step-text h3 { font-family: 'Fredoka One', cursive; font-size: 1.15rem; margin-bottom: 6px; }
+  .step-text p { font-size: 0.95rem; color: rgba(255,248,238,0.6); line-height: 1.6; }
 
-  /* ── COMMUNITY / SOCIALS ── */
-  .community {
-    padding: 100px 24px;
-    text-align: center;
-  }
-  .community h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 16px;
-  }
-  .community p {
-    color: rgba(254,249,240,0.6);
-    margin-bottom: 40px;
-    font-size: 1.1rem;
-  }
-  .social-links {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .social-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 32px;
-    border-radius: 16px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.05rem;
-    text-decoration: none;
-    color: var(--light);
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.04);
-    transition: transform 0.2s, background 0.2s, border-color 0.2s;
-  }
-  .social-btn:hover {
-    transform: translateY(-4px);
-    background: rgba(255,255,255,0.09);
-    border-color: var(--pink);
-  }
+  /* ── COMMUNITY ── */
+  .community { padding: 100px 24px; text-align: center; }
+  .community h2 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px; }
+  .community p { color: rgba(255,248,238,0.6); margin-bottom: 40px; font-size: 1.1rem; }
+  .social-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .social-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 16px; font-family: 'Fredoka One', cursive; font-size: 1.05rem; text-decoration: none; color: var(--light); border: 1px solid rgba(62,198,198,0.2); background: rgba(62,198,198,0.06); transition: transform 0.2s, background 0.2s, border-color 0.2s; }
+  .social-btn:hover { transform: translateY(-4px); background: rgba(62,198,198,0.14); border-color: var(--teal); }
   .social-btn .s-icon { font-size: 1.4rem; }
 
   /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 40px 24px;
-    color: rgba(254,249,240,0.25);
-    font-size: 0.85rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    position: relative;
-    z-index: 1;
-  }
-  footer a { color: var(--pink); text-decoration: none; }
+  footer { text-align: center; padding: 40px 24px; color: rgba(255,248,238,0.2); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.04); position: relative; z-index: 1; }
 
   /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     .nav-links { display: none; }
     .pibble-avatar { width: 150px; height: 150px; font-size: 75px; }
-    .contract-box { flex-direction: column; align-items: flex-start; }
     .hero-buttons { flex-direction: column; width: 100%; }
     .hero-buttons .btn { width: 100%; justify-content: center; }
+    .fomo-counter { gap: 12px; }
   }
 </style>
 </head>
 <body>
+
+<!-- FOMO TICKER -->
+<div class="fomo-ticker">
+  <div class="fomo-ticker-track">
+    <span><span class="fomo-dot"></span>LAUNCHING SOON</span>
+    <span>🐶 $PIBBLE IS TRENDING</span>
+    <span>🌊 DON'T MISS THE WAVE</span>
+    <span>🚀 EARLY BUYERS WIN BIG</span>
+    <span>🐬 THE PIBBLE ARMY IS GROWING</span>
+    <span>🔥 VIRAL MEMECOIN OF 2025</span>
+  </div>
+</div>
 
 <!-- BG Blobs -->
 <div class="bg-blobs">
@@ -498,16 +229,35 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">🎵 The Official Pibble Memecoin</div>
+  <div class="hero-badge">🎵 The Internet's Favorite Dancing Pibble</div>
   <div class="pibble-avatar">🐶</div>
-  <h1><span class="pink">$</span>PIBBLE</h1>
+  <h1><span style="color:var(--peach)">$</span><span style="color:var(--teal)">PIBBLE</span></h1>
   <p class="hero-subtitle">
     ♪ <em>"Just the way you are"</em> ♪<br>
-    The internet's favorite pibble, now on-chain.
+    The viral pibble has arrived on-chain. Are you early?
   </p>
+
+  <div class="fomo-counter">
+    <div class="counter-box">
+      <div class="counter-val" id="watchers">2,847</div>
+      <div class="counter-label">Watching Now</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-val" id="countdown">04:32:11</div>
+      <div class="counter-label">Until Launch</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-val">🔥</div>
+      <div class="counter-label">Trending</div>
+    </div>
+  </div>
+
   <div class="hero-buttons">
-    <a href="#howto" class="btn btn-primary">🚀 Buy $PIBBLE</a>
+    <a href="#howto" class="btn btn-primary">🚀 Buy $PIBBLE Now</a>
     <a href="#about" class="btn btn-secondary">Learn More</a>
+  </div>
+  <div class="fomo-alert">
+    ⚡ Early buyers historically see the biggest gains — don't be late.
   </div>
 </section>
 
@@ -516,32 +266,34 @@
   <div class="marquee-track">
     <span>🐶 $PIBBLE</span>
     <span>🎵 JUST THE WAY YOU ARE</span>
-    <span>💖 LOVE YOUR PIBBLE</span>
-    <span>🚀 TO THE MOON</span>
+    <span>🌊 SURF THE WAVE</span>
+    <span>🚀 EARLY = WINNING</span>
+    <span>🐬 PIBBLE & DOLPHINS</span>
+    <span>💰 DON'T MISS THIS</span>
     <span>🐶 $PIBBLE</span>
     <span>🎵 JUST THE WAY YOU ARE</span>
-    <span>💖 LOVE YOUR PIBBLE</span>
-    <span>🚀 TO THE MOON</span>
-    <span>🐶 $PIBBLE</span>
-    <span>🎵 JUST THE WAY YOU ARE</span>
-    <span>💖 LOVE YOUR PIBBLE</span>
-    <span>🚀 TO THE MOON</span>
-    <span>🐶 $PIBBLE</span>
-    <span>🎵 JUST THE WAY YOU ARE</span>
-    <span>💖 LOVE YOUR PIBBLE</span>
-    <span>🚀 TO THE MOON</span>
+    <span>🌊 SURF THE WAVE</span>
+    <span>🚀 EARLY = WINNING</span>
+    <span>🐬 PIBBLE & DOLPHINS</span>
+    <span>💰 DON'T MISS THIS</span>
   </div>
+</div>
+
+<!-- FOMO BAND -->
+<div class="fomo-band reveal">
+  <h3>⚡ The trend is happening RIGHT NOW</h3>
+  <p>The pibble video is going viral across the internet. Every minute you wait, more people are finding out. <strong>The earliest buyers always have the advantage.</strong></p>
 </div>
 
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-inner reveal">
     <div class="section-tag">What is $PIBBLE?</div>
-    <h2>Love It <span class="pink">Just The Way</span> It Is 🐶</h2>
+    <h2>Love It <span style="color:var(--teal)">Just The Way</span> It Is 🐶</h2>
     <p>
       You've seen the video — a pibble dancing its heart out to <strong>"Just The Way You Are" by Milky.</strong> The goofy moves, the block head vibes, the pure joy — the internet couldn't get enough of it.
       <br><br>
-      $PIBBLE is the memecoin born from that moment. No utility, no roadmap BS — just pure, unfiltered love for the dancing pibble that made the whole internet smile. If you love pibbles, you're home.
+      $PIBBLE is the memecoin born from that viral moment. No utility, no roadmap BS — just pure, unfiltered love for the dancing pibble that made the whole internet smile. Memes move markets. This one is moving fast.
     </p>
     <div class="song-quote">
       ♪ "The way you are, the way you understand me" ♪
@@ -553,7 +305,7 @@
 <section class="tokenomics" id="tokenomics">
   <div class="tokenomics-inner reveal">
     <div class="section-tag">Tokenomics</div>
-    <h2>Simple. Fair. <span class="yellow">Based.</span></h2>
+    <h2>Simple. Fair. <span style="color:var(--gold)">Based.</span></h2>
     <div class="token-grid">
       <div class="token-card">
         <div class="icon">💰</div>
@@ -579,11 +331,38 @@
   </div>
 </section>
 
+<!-- EARLY BUYERS -->
+<section class="early-buyers" id="early">
+  <div class="early-buyers-inner reveal">
+    <div class="section-tag">Why Act Now?</div>
+    <h2>🌊 Early Buyers <span style="color:var(--peach)">Ride The Wave</span></h2>
+    <p>The biggest memecoin gains always go to those who got in before the crowd. $PIBBLE is at the very start of its journey — the viral trend is fresh, the community is growing, and the window is open right now. This is the moment people look back at and say <strong style="color:var(--gold)">"I wish I bought earlier."</strong></p>
+    <div class="early-perks">
+      <div class="perk">
+        <div class="perk-icon">🌊</div>
+        <div class="perk-text">Ride the Trend Wave</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">💎</div>
+        <div class="perk-text">Low Market Cap Entry</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🐬</div>
+        <div class="perk-text">Viral Meme Backing</div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🔥</div>
+        <div class="perk-text">Community Growing Daily</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- HOW TO BUY -->
 <section class="howto" id="howto">
   <div class="howto-inner reveal">
     <div class="section-tag">How to Buy</div>
-    <h2>Get Your <span class="pink">$PIBBLE</span></h2>
+    <h2>Get Your <span style="color:var(--peach)">$PIBBLE</span></h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
@@ -609,8 +388,8 @@
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-text">
-          <h3>HODL & Vibe</h3>
-          <p>Join the community, share pibble memes, and enjoy the ride. 🐶🎵</p>
+          <h3>HODL & Ride the Wave 🌊</h3>
+          <p>Join the community, share pibble memes, and enjoy the ride. The wave is just getting started. 🐶🎵</p>
         </div>
       </div>
     </div>
@@ -621,11 +400,11 @@
 <section class="community" id="community">
   <div class="reveal">
     <div class="section-tag">Join the Pack</div>
-    <h2>The Pibble <span class="yellow">Community</span></h2>
-    <p>Follow us, join the chat, and spread the pibble love.</p>
+    <h2>The Pibble <span style="color:var(--gold)">Army</span> 🐶</h2>
+    <p>The community is growing fast. Get in before everyone else does.</p>
     <div class="social-links">
-      <a href="https://x.com/pibblethecoin" class="social-btn" target="_blank">
-        <span class="s-icon">🐦</span> Twitter / X
+      <a href="https://x.com/THEPIBBLEDOG" class="social-btn" target="_blank">
+        <span class="s-icon">🐦</span> Follow on X
       </a>
     </div>
   </div>
@@ -633,7 +412,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>$PIBBLE is a memecoin with no intrinsic value or financial return. Made with 💖 by the pibble community.</p>
+  <p>$PIBBLE is a memecoin with no intrinsic value or financial return. Made with 💖 by the pibble community. Not financial advice.</p>
 </footer>
 
 <script>
@@ -641,13 +420,34 @@
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
   revealEls.forEach(el => observer.observe(el));
+
+  // Live watcher counter (slowly fluctuates)
+  let watchers = 2847;
+  setInterval(() => {
+    watchers += Math.floor(Math.random() * 7) - 2;
+    if (watchers < 2700) watchers = 2700;
+    document.getElementById('watchers').textContent = watchers.toLocaleString();
+  }, 3000);
+
+  // Countdown timer
+  var launchTarget = Date.now() + (4 * 3600000) + (32 * 60000) + 11000;
+  function updateCountdown() {
+    var diff = launchTarget - Date.now();
+    if (diff < 0) diff = 0;
+    var h = Math.floor(diff / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    var hh = h < 10 ? '0' + h : '' + h;
+    var mm = m < 10 ? '0' + m : '' + m;
+    var ss = s < 10 ? '0' + s : '' + s;
+    document.getElementById('countdown').textContent = hh + ':' + mm + ':' + ss;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 </script>
 
 </body>
